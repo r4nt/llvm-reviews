@@ -83,6 +83,7 @@ set_config metamta.reply-handler-domain $HOST
 set_config metamta.user-address-format real
 set_config minimal-email true
 set_config metamta.differential.unified-comment-context true
+set_config metamta.vary-subjects false
 
 # Configure php.
 sudo bash -c "sed -i'' -e 's,;date.timezone =,date.timezone = America/Los_Angeles,' /etc/php5/apache2/php.ini"
