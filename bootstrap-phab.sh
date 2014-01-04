@@ -82,6 +82,7 @@ set_config metamta.re-prefix true
 set_config metamta.reply-handler-domain $HOST
 set_config metamta.user-address-format real
 set_config minimal-email true
+set_config metamta.differential.unified-comment-context true
 
 # Configure php.
 sudo bash -c "sed -i'' -e 's,;date.timezone =,date.timezone = America/Los_Angeles,' /etc/php5/apache2/php.ini"
@@ -98,4 +99,10 @@ sudo bash -c "sed -i'' -e s,__HOST__,$HOST, /etc/apache2/sites-available/phabric
 sudo a2ensite phabricator
 
 sudo service apache2 reload
+
+echo ""
+echo ""
+echo "Next steps:"
+echo "- add authentication providers via the web UI"
+echo "- configure a SendGrid account vai the web UI"
 
