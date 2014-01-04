@@ -58,7 +58,7 @@ echo "******************************************************************"
 sudo su phab -c "/srv/http/phabricator/bin/accountadmin"
 
 function set_config() {
-  sudo su phab -c "./bin/config set \"$1\" \"$2\""
+  sudo su phab -c "./bin/config set $1 $2"
 }
 set_config phabricator.base-uri "http://$HOST/"
 set_config storage.upload-size-limit 15M
@@ -84,6 +84,7 @@ set_config metamta.user-address-format real
 set_config minimal-email true
 set_config metamta.differential.unified-comment-context true
 set_config metamta.vary-subjects false
+set_config phabricator.uninstalled-applications \''{ "PhabricatorApplicationConpherence" : true, "PhabricatorApplicationDiviner" : true, "PhabricatorApplicationFlags" : true, "PhabricatorApplicationPhriction" : true }'\'
 
 # Configure php.
 sudo bash -c "sed -i'' -e 's,;date.timezone =,date.timezone = America/Los_Angeles,' /etc/php5/apache2/php.ini"
