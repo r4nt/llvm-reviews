@@ -45,3 +45,6 @@ sudo cp $CONFIG_DIR/apache2-phabricator.conf \
 sudo a2ensite phabricator
 
 sudo service apache2 reload
+
+cd /srv/http/phabricator
+sudo su phab -c "./bin/storage upgrade --force"
