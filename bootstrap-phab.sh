@@ -1,5 +1,6 @@
 #!/bin/bash
 
+: ${HOST:="llvm-reviews.no-ip.org"}
 CONFIG_DIR=$(readlink -f $(dirname -- $0))
 
 sudo apt-get update
@@ -46,6 +47,9 @@ fi
 cd /srv/http/phabricator
 sudo su phab -c "./bin/storage upgrade --force"
 
+sudo mkdir /var/repo
+sudo chown phab:phab /var/repo
+
 echo "******************************************************************"
 echo "* Please create an administrator account. If you skip this step, *"
 echo "* Phabricator will ask the first person visiting the website to  *"
@@ -53,11 +57,17 @@ echo "* create an administrator account.                               *"
 echo "******************************************************************"
 sudo su phab -c "/srv/http/phabricator/bin/accountadmin"
 
+sudo bash -c "sed -i'' -e 's,;date.timezone =,date.timezone = America/Los_Angeles,' /etc/php5/apache2/php.ini"
+if ! grep apc.stat /etc/php5/apache2/php.ini; then
+  sudo bash -c "echo 'apc.stat = 0' >> /etc/php5/apache2/php.ini"
+fi
+
 # Configure apache.
 sudo a2dissite default
 
 sudo cp $CONFIG_DIR/apache2-phabricator.conf \
   /etc/apache2/sites-available/phabricator
+sudo bash -c "sed -i'' -e s,__HOST__,$HOST, /etc/apache2/sites-available/phabricator"
 sudo a2ensite phabricator
 
 sudo service apache2 reload
