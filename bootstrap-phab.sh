@@ -36,8 +36,24 @@ if [[ ! -e arcanist ]]; then
 fi
 if [[ ! -e phabricator ]]; then
   sudo su phab -c "git clone git://github.com/facebook/phabricator.git"
+  cd phabricator
+  sudo su phab -c "git remote add r4nt git://github.com/r4nt/phabricator.git"
+  sudo su phab -c "git fetch r4nt"
+  sudo su phab -c "git checkout r4nt-master"
 fi
 
+# Configure phabricator.
+cd /srv/http/phabricator
+sudo su phab -c "./bin/storage upgrade --force"
+
+echo "******************************************************************"
+echo "* Please create an administrator account. If you skip this step, *"
+echo "* Phabricator will ask the first person visiting the website to  *"
+echo "* create an administrator account.                               *"
+echo "******************************************************************"
+sudo su phab -c "/srv/http/phabricator/bin/accountadmin"
+
+# Configure apache.
 sudo a2dissite default
 
 sudo cp $CONFIG_DIR/apache2-phabricator.conf \
@@ -46,5 +62,3 @@ sudo a2ensite phabricator
 
 sudo service apache2 reload
 
-cd /srv/http/phabricator
-sudo su phab -c "./bin/storage upgrade --force"
