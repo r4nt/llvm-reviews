@@ -57,6 +57,33 @@ echo "* create an administrator account.                               *"
 echo "******************************************************************"
 sudo su phab -c "/srv/http/phabricator/bin/accountadmin"
 
+function set_config() {
+  sudo su phab -c "./bin/config set \"$1\" \"$2\""
+}
+set_config phabricator.base-uri "http://$HOST/"
+set_config storage.upload-size-limit 15M
+set_config metamta.mail-adapter PhabricatorMailImplementationSendGridAdapter
+set_config account.minimum-password-length 6
+set_config auth.require-approval false
+set_config differential.allow-self-accept true
+set_config differential.always-allow-close true
+set_config differential.require-test-plan-field false
+set_config metamta.can-send-as-user true
+set_config metamta.default-address phabricator@$HOST
+set_config metamta.differential.attach-patches true
+set_config metamta.differential.inline-patches 100
+set_config metamta.differential.reply-handler-domain $HOST
+set_config metamta.differential.subject-prefix "[PATCH]"
+set_config metamta.domain $HOST
+set_config metamta.insecure-auth-with-reply-to true
+set_config metamta.one-mail-per-recipient false
+set_config metamta.public-replies true
+set_config metamta.re-prefix true
+set_config metamta.reply-handler-domain $HOST
+set_config metamta.user-address-format real
+set_config minimal-email true
+
+# Configure php.
 sudo bash -c "sed -i'' -e 's,;date.timezone =,date.timezone = America/Los_Angeles,' /etc/php5/apache2/php.ini"
 if ! grep apc.stat /etc/php5/apache2/php.ini; then
   sudo bash -c "echo 'apc.stat = 0' >> /etc/php5/apache2/php.ini"
