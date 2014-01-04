@@ -1,5 +1,7 @@
 #!/bin/bash
 
+CONFIG_DIR=$(readlink -f $(dirname -- $0))
+
 sudo apt-get update
 sudo apt-get upgrade -y
 sudo apt-get install -y vim less
@@ -35,3 +37,11 @@ fi
 if [[ ! -e phabricator ]]; then
   sudo su phab -c "git clone git://github.com/facebook/phabricator.git"
 fi
+
+sudo a2dissite default
+
+sudo cp $CONFIG_DIR/apache2-phabricator.conf \
+  /etc/apache2/sites-available/phabricator
+sudo a2ensite phabricator
+
+sudo service apache2 reload
