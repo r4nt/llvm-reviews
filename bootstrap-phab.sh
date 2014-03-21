@@ -1,7 +1,51 @@
-#!/bin/bash
+#!/bin/bash -eu
+# export MODE=production to set up a production system.
 
 : ${HOST:="llvm-reviews.no-ip.org"}
+: ${MODE:="test"}
+
 CONFIG_DIR=$(readlink -f $(dirname -- $0))
+DISK_DEV=/dev/disks/by-id/google-mysql"
+MYSQLDIR=/var/lib/mysql
+MOUNT=/mnt/database
+DIR=phabricator-mysql
+
+if [[ "${MODE}" == "production" ]]; then
+  if [[ ! -e "${DISK_DEV}" ]]; then
+    echo "Disk ${DISK_DEV} not available. Please attach before"
+    echo "trying to set up a production system."
+    exit 1
+  fi
+  if [[ ! -e "${MOUNT}" ]]; then
+    sudo mkdir -p "${MOUNT}"
+  fi
+  if not grep "${DISK_DEV}" /etc/fstab; then
+    sudo bash -c "echo \"${DISK_DEV} ${MOUNT} ext4 defaults 0 0\" >> /etc/fstab"
+    sudo mount -a
+  fi
+  if [[ ! -e "${MOUNT}/${DIR}" ]]; then
+    echo "The production data at ${MOUNT}/${DIR} does not exist!"
+    exit 1
+  fi
+  if [[ -e "${MYSQLDIR}" ]]; then
+    LINK=$(readlink -f "${MYSQLDIR}")
+    if [[ "${LINK}" != "${MOUNT}/${DIR}" ]]; then
+      echo "The mysql directory at ${LINK} is different from the"
+      echo "production data at ${MOUNT}/${DIR}. Please fix!"
+      exit 1
+    fi
+  else
+    ln -s "${MOUNT}/${DIR}" "${MYSQLDIR}"
+  fi 
+else
+  if [[ -e "${DISK_DEV}" ]]; then
+    echo "Disk ${DISK_DEV} is attached - perhaps you want to set"
+    echo "up a production system?"
+    exit 1
+  fi
+fi
+
+exit 1
 
 sudo apt-get update
 sudo apt-get upgrade -y
