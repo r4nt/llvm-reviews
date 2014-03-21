@@ -35,7 +35,7 @@ if [[ "${MODE}" == "production" ]]; then
       exit 1
     fi
   else
-    ln -s "${MOUNT}/${DIR}" "${MYSQLDIR}"
+    sudo ln -s "${MOUNT}/${DIR}" "${MYSQLDIR}"
   fi 
 else
   if [[ -e "${DISK_DEV}" ]]; then
@@ -45,17 +45,15 @@ else
   fi
 fi
 
-exit 1
-
 sudo apt-get update
 sudo apt-get upgrade -y
 sudo apt-get install -y vim less
 
 # Add the user we're going to maintain phab as.
-sudo adduser --disabled-password --gecos "" phab
+sudo adduser --disabled-password --gecos "" phab || true
 
 # Install phabricator dependencies.
-cat <<END |debconf-set-selections
+cat <<END |sudo debconf-set-selections
 mysql-server-5.1 mysql-server/root_password password ""
 mysql-server-5.1 mysql-server/root_password_again password ""
 mysql-server-5.1 mysql-server/start_on_boot boolean true
