@@ -53,12 +53,12 @@ sudo apt-get install -y vim less
 sudo adduser --disabled-password --gecos "" phab || true
 
 # Install phabricator dependencies.
-cat <<END |sudo debconf-set-selections
-mysql-server-5.1 mysql-server/root_password password ""
-mysql-server-5.1 mysql-server/root_password_again password ""
-mysql-server-5.1 mysql-server/start_on_boot boolean true
-END
-sudo DEBIAN_FRONTEND=non-interactive apt-get install -y mysql-server
+#cat <<END |sudo debconf-set-selections
+#mysql-server mysql-server/root_password password ""
+#mysql-server mysql-server/root_password_again password ""
+#mysql-server mysql-server/start_on_boot boolean true
+#END
+sudo DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-server
 
 sudo apt-get install -y \
   git apache2 dpkg-dev \
@@ -100,7 +100,7 @@ fi
 cd /srv/http/phabricator
 sudo su phab -c "./bin/storage upgrade --force"
 
-sudo mkdir /var/repo
+sudo mkdir -p /var/repo
 sudo chown phab:phab /var/repo
 
 echo "******************************************************************"
