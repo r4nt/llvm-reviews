@@ -1,7 +1,7 @@
 #!/bin/bash -eu
 # export MODE=production to set up a production system.
 
-: ${HOST:="llvm-reviews.no-ip.org"}
+: ${HOST:="reviews.llvm.org"}
 : ${MODE:="test"}
 
 CONFIG_DIR=$(readlink -f $(dirname -- $0))
