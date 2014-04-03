@@ -64,8 +64,6 @@ sudo apt-get install -y \
   git subversion apache2 dpkg-dev \
   php5 php5-mysql php5-gd php5-dev php5-curl php-apc php5-cli php5-json
 
-sudo service apache2 stop
-
 sudo a2enmod rewrite
 
 # Create basic serving directory structure.
@@ -152,6 +150,8 @@ sudo cp $CONFIG_DIR/apache2-phabricator.conf \
 sudo bash -c "sed -i'' -e s,__HOST__,$HOST, /etc/apache2/sites-available/phabricator"
 sudo a2ensite phabricator
 
+sudo service apache2 stop
+
 echo ""
 echo ""
 echo "Next steps:"
@@ -159,3 +159,12 @@ echo "- sudo su phab -c /srv/http/phabricator/bin/accountadmin"
 echo "- sudo service apache2 start"
 echo "- add authentication providers via the web UI"
 echo "- configure a SendGrid account vai the web UI"
+
+echo ""
+echo "----"
+echo "Running the account admin setup script; DO NOT SKIP if there is no account yet,"
+echo "as otherwise THE FIRST PERSON VISITING THE SITE will get admin access."
+echo "If an admin already exist, you can abort the script now."
+echo "----"
+sudo su phab -c /srv/http/phabricator/bin/accountadmin
+
