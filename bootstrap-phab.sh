@@ -64,6 +64,8 @@ sudo apt-get install -y \
   git subversion apache2 dpkg-dev \
   php5 php5-mysql php5-gd php5-dev php5-curl php-apc php5-cli php5-json
 
+sudo service apache2 stop
+
 sudo a2enmod rewrite
 
 # Create basic serving directory structure.
@@ -102,13 +104,6 @@ sudo su phab -c "./bin/storage upgrade --force"
 
 sudo mkdir -p /var/repo
 sudo chown phab:phab /var/repo
-
-echo "******************************************************************"
-echo "* Please create an administrator account. If you skip this step, *"
-echo "* Phabricator will ask the first person visiting the website to  *"
-echo "* create an administrator account.                               *"
-echo "******************************************************************"
-sudo su phab -c "/srv/http/phabricator/bin/accountadmin"
 
 function set_config() {
   sudo su phab -c "./bin/config set $1 $2"
@@ -153,11 +148,10 @@ sudo cp $CONFIG_DIR/apache2-phabricator.conf \
 sudo bash -c "sed -i'' -e s,__HOST__,$HOST, /etc/apache2/sites-available/phabricator"
 sudo a2ensite phabricator
 
-sudo service apache2 reload
-
 echo ""
 echo ""
 echo "Next steps:"
+echo "- sudo su phab -c /srv/http/phabricator/bin/accountadmin"
+echo "- sudo service apache2 start"
 echo "- add authentication providers via the web UI"
 echo "- configure a SendGrid account vai the web UI"
-
