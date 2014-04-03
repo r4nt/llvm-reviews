@@ -155,8 +155,11 @@ sudo service apache2 stop
 echo ""
 echo ""
 echo "Next steps:"
+echo "If you interrupt this workflow, you'll need to pick up where you left."
 echo "- sudo su phab -c /srv/http/phabricator/bin/accountadmin"
 echo "- sudo service apache2 start"
+echo "- sudo service phd start"
+echo "Manual steps:"
 echo "- add authentication providers via the web UI"
 echo "- configure a SendGrid account vai the web UI"
 
@@ -167,3 +170,8 @@ echo "as otherwise THE FIRST PERSON VISITING THE SITE will get admin access."
 echo "If an admin already exist, you can abort the script now."
 echo "----"
 sudo su phab -c /srv/http/phabricator/bin/accountadmin
+
+# Only start the service if the above went through.
+sudo service apache2 start
+sudo service phd start
+
