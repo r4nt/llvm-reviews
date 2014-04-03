@@ -167,4 +167,3 @@ echo "as otherwise THE FIRST PERSON VISITING THE SITE will get admin access."
 echo "If an admin already exist, you can abort the script now."
 echo "----"
 sudo su phab -c /srv/http/phabricator/bin/accountadmin
-
