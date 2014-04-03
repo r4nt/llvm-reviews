@@ -134,6 +134,10 @@ set_config metamta.differential.unified-comment-context true
 set_config metamta.vary-subjects false
 set_config phabricator.uninstalled-applications \''{ "PhabricatorApplicationConpherence" : true, "PhabricatorApplicationDiviner" : true, "PhabricatorApplicationFlags" : true, "PhabricatorApplicationPhriction" : true }'\'
 
+# Configure phd startup.
+sudo cp $CONFIG_DIR/phd /etc/init.d/phd
+sudo update-rc.d phd defaults
+
 # Configure php.
 sudo bash -c "sed -i'' -e 's,;date.timezone =,date.timezone = America/Los_Angeles,' /etc/php5/apache2/php.ini"
 if ! grep apc.stat /etc/php5/apache2/php.ini; then
