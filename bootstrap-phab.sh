@@ -130,6 +130,7 @@ set_config metamta.user-address-format real
 set_config minimal-email true
 set_config metamta.differential.unified-comment-context true
 set_config metamta.vary-subjects false
+set_config metamta.single-reply-handler-prefix reviews
 set_config phabricator.uninstalled-applications \''{ "PhabricatorApplicationConpherence" : true, "PhabricatorApplicationDiviner" : true, "PhabricatorApplicationFlags" : true, "PhabricatorApplicationPhriction" : true }'\'
 
 # Configure phd startup.
