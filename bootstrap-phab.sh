@@ -74,7 +74,7 @@ cd /srv/http
 if [[ ! -e libphutil ]]; then
   sudo su phab -c "git clone git://github.com/facebook/libphutil.git"
   cd libphutil
-  sudo su phab -c "git remote add r4nt git://github.com/r4nt/libphutil.git"
+  sudo su phab -c "git remote add r4nt https://github.com/r4nt/libphutil.git"
   sudo su phab -c "git fetch r4nt"
   sudo su phab -c "git checkout r4nt-master"
   cd ..
@@ -82,7 +82,7 @@ fi
 if [[ ! -e arcanist ]]; then
   sudo su phab -c "git clone git://github.com/facebook/arcanist.git"
   cd arcanist
-  sudo su phab -c "git remote add r4nt git://github.com/r4nt/arcanist.git"
+  sudo su phab -c "git remote add r4nt https://github.com/r4nt/arcanist.git"
   sudo su phab -c "git fetch r4nt"
   sudo su phab -c "git checkout r4nt-master"
   cd ..
@@ -90,7 +90,7 @@ fi
 if [[ ! -e phabricator ]]; then
   sudo su phab -c "git clone git://github.com/facebook/phabricator.git"
   cd phabricator
-  sudo su phab -c "git remote add r4nt git://github.com/r4nt/phabricator.git"
+  sudo su phab -c "git remote add r4nt https://github.com/r4nt/phabricator.git"
   sudo su phab -c "git fetch r4nt"
   sudo su phab -c "git checkout r4nt-master"
   cd ..
