@@ -108,14 +108,15 @@ function set_config() {
 }
 set_config phabricator.base-uri "http://$HOST/"
 set_config storage.upload-size-limit 15M
-set_config metamta.mail-adapter PhabricatorMailImplementationSendGridAdapter
+set_config metamta.mail-adapter PhabricatorMailImplementationPHPMailerAdapter
 set_config account.minimum-password-length 6
 set_config auth.require-approval false
 set_config differential.allow-self-accept true
 set_config differential.always-allow-close true
 set_config differential.require-test-plan-field false
 set_config metamta.can-send-as-user true
-set_config metamta.default-address phabricator@$HOST
+set_config metamta.default-address reviews@$HOST
+set_config metamta.single-reply-handler-prefix reviews
 set_config metamta.differential.attach-patches true
 set_config metamta.differential.inline-patches 100
 set_config metamta.differential.reply-handler-domain $HOST
@@ -130,7 +131,10 @@ set_config metamta.user-address-format real
 set_config minimal-email true
 set_config metamta.differential.unified-comment-context true
 set_config metamta.vary-subjects false
-set_config metamta.single-reply-handler-prefix reviews
+set_config phpmailer.mailer smtp
+set_config phpmailer.smtp-host smtp.sendgrid.com
+set_config phpmailer.smtp-port 2525
+set_config phpmailer.smtp-protocol tls
 set_config phabricator.uninstalled-applications \''{ "PhabricatorApplicationConpherence" : true, "PhabricatorApplicationDiviner" : true, "PhabricatorApplicationFlags" : true, "PhabricatorApplicationPhriction" : true }'\'
 
 # Configure phd startup.
