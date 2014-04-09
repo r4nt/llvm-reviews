@@ -131,6 +131,9 @@ set_config metamta.user-address-format real
 set_config minimal-email true
 set_config metamta.differential.unified-comment-context true
 set_config metamta.vary-subjects false
+set_config metamta.reply.show-hints false
+set_config metamta.herald.show-hints false
+set_config metamta.recipients.show-hints false
 set_config phpmailer.mailer smtp
 set_config phpmailer.smtp-host smtp.sendgrid.com
 set_config phpmailer.smtp-port 2525
