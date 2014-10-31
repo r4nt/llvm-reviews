@@ -1,0 +1,16 @@
+#!/bin/sh
+# Starts/stops the phabricator daemons.
+
+case "$1" in
+  start)
+    sudo su phab -c "/srv/http/phabricator/bin/phd start"
+    ;;
+  stop)
+    sudo su phab -c "/srv/http/phabricator/bin/phd stop"
+    ;;
+  *)
+    echo "Usage: $0 {start|stop}"
+    exit 1
+    ;;
+esac
+exit 0
